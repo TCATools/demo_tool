@@ -9,7 +9,7 @@
      - 输出：将判断结果输出到`check_result.json`文件中，文件内容为`{"usable": true}`或`{"usable": false}`。
    - `run_cmd`：
      - 功能：扫描代码，执行自定义检查器逻辑。
-     - 输出：按照指定格式，输出结果到`result.json`文件中，文件格式：
+     - 输出：按照指定格式，输出结果到`RESULT_DIR`环境变量指定的目录下的`result.json`文件中，文件格式：
          ```
          [
              {
@@ -38,5 +38,6 @@
 ## 本地调试步骤
 
 1. 修改`test.sh`中的`SOURCE_DIR`环境变量为需要扫描的代码目录。
-2. 按需修改`task_request.json`文件中`task_params`字段的内容，将工具代码中用到的字段替换为实际值。
-3. 命令行`cd`到项目根目录,执行`test.sh`脚本：`bash test.sh`。
+2. 修改`test.sh`中的`RESULT_DIR`环境变量，指定某个本地目录为结果保存目录。
+3. 按需修改`task_request.json`文件中`task_params`字段的内容，将工具代码中用到的字段替换为实际值。
+4. 命令行`cd`到项目根目录,执行`test.sh`脚本：`bash test.sh`。

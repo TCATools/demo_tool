@@ -216,8 +216,10 @@ class DemoTool(object):
             }
         ]
 
-        # 输出结果到指定的json文件
-        with open("result.json", "w") as fp:
+        # 输出结果json文件到RESULT_DIR指定的目录下
+        result_dir = os.getenv("RESULT_DIR", os.getcwd())
+        result_path = os.path.join(result_dir, "result.json")
+        with open(result_path, "w") as fp:
             json.dump(result, fp, indent=2)
 
     def __check_usable(self):

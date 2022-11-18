@@ -1,4 +1,5 @@
 export SOURCE_DIR="/xxx/xxx"
+export RESULT_DIR="/xxx/xxx"
 export TASK_REQUEST="task_request.json"
 
 echo "- * - * - * - * - * - * - * - * - * - * - * - * -* -* -* -* -* -* -"
