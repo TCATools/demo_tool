@@ -2,7 +2,8 @@
 
 ## 开发指引
 1. 修改`src/main.py`，按需实现工具逻辑。
-2. `tool.json`文件里声明了2个字段，`check_cmd`和`run_cmd`，对应`src/main.py`中需要实现的2个执行命令。
+2. 如果工具逻辑中需要执行命令行，请检查命令行字符串是否存在注入符号，防止命令行注入漏洞（参考`src/main.py`中的`__detect_injection_symbols`方法）
+3. `tool.json`文件里声明了2个字段，`check_cmd`和`run_cmd`，对应`src/main.py`中需要实现的2个执行命令。
    - `check_cmd`：
      - 功能：判断当前执行环境是否满足工具要求。
        >比如某些工具只能在linux下执行，需要判断当前是否为linux环境。

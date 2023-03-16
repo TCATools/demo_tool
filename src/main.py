@@ -12,6 +12,7 @@ demo 工具
 """
 
 import os
+import re
 import json
 import fnmatch
 import argparse
@@ -135,6 +136,30 @@ class DemoTool(object):
             "re_exclusion": regex_exlucde_paths
         }
 
+    def __detect_injection_symbols(self, cmd_str, symbols=True, raise_exception=True):
+        """检测可注入的符号，防止命令行注入
+        :param cmd_str: <str> 命令行字符串
+        :param symbols: <bool|regexp> 检查命令注入符号，默认为True，检查全部；指定regexp（正则表达式）时，检查传入的指定符号。
+                                      全部注入符号正则表达式为 "\n|;|&+|\|+|`|\$\("
+        :param raise_exception: <bool> 发现注入符号时，是否抛异常，默认抛异常
+        """
+        if isinstance(symbols, bool) and symbols is True:
+            symbols = "|".join([
+                "\n",
+                ";",
+                "&+",
+                "\|+",
+                "`",
+                "\$\(",
+            ])
+        if isinstance(symbols, str):
+            match_chars = re.findall(symbols, cmd_str)
+            if match_chars:
+                if raise_exception:
+                    raise Exception(f"Find Injection Symbols({match_chars}) in command: {cmd_str}")
+                else:
+                    print(f"Find Injection Symbols({match_chars}) in command: {cmd_str}")
+
     def __scan(self):
         """
         扫码代码
@@ -190,6 +215,8 @@ class DemoTool(object):
                 print("[debug] get diff files: %s" % diff_files)
 
         # todo: 此处需要自行实现工具逻辑,输出结果,存放到result列表中
+        # todo: 如果需要执行命令行（比如subprocess调用），请调用 __detect_injection_symbols 方法检查命令行字符串是否存在注入符号，防止命令行注入漏洞
+
         # todo: 这里是demo结果，仅供展示，需要替换为实际结果
         demo_path = os.path.join(source_dir, "run.py")
         result = [
